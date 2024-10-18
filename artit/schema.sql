@@ -12,7 +12,7 @@ CREATE TABLE user (
   firstname TEXT NOT NULL,
   lastname TEXT NOT NULL,
   bio TEXT, -- User bio (optional)
-  avatar TEXT, -- URL or path to user's profile picture (optional)
+  avatar TEXT -- URL or path to user's profile picture (optional)
 );
 
 CREATE TABLE post (
