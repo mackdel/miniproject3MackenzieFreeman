@@ -1,4 +1,5 @@
 import functools
+import os
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -6,6 +7,9 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
+
+from werkzeug.utils import secure_filename
+from flask import current_app
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -17,6 +21,9 @@ def register():
         password = request.form['password']
         firstname = request.form['firstname']
         lastname = request.form['lastname']
+        bio = request.form['bio']
+        avatar = request.files['avatar']
+
         db = get_db()
         error = None
 
@@ -29,11 +36,18 @@ def register():
         elif not lastname:
             error = 'Last name is required.'
 
+        avatar_filename = None
+        if avatar:
+            filename = secure_filename(avatar.filename)
+            if filename != '':
+                avatar_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                avatar.save(avatar_filename)
+
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password, firstname, lastname) VALUES (?, ?, ?, ?)",
-                    (username, generate_password_hash(password), firstname, lastname)
+                    "INSERT INTO user (username, password, firstname, lastname, bio, avatar) VALUES (?, ?, ?, ?, ?, ?)",
+                    (username, generate_password_hash(password), firstname, lastname, bio, avatar_filename)
                 )
                 db.commit()
             except db.IntegrityError:
