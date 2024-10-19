@@ -19,8 +19,8 @@ CREATE TABLE post (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL, -- References user who created the post
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
+  artwork TEXT NOT NULL, -- URL or path to art image
+  description TEXT, -- Description of art (optional)
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
@@ -39,14 +39,5 @@ CREATE TABLE likes (
   user_id INTEGER NOT NULL, -- References user who liked the post
   post_id INTEGER NOT NULL, -- References the post that was liked
   FOREIGN KEY (post_id) REFERENCES post (id),
-  FOREIGN KEY (user_id) REFERENCES user (id)
-);
-
-CREATE TABLE artwork (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id INTEGER NOT NULL, -- References user who uploaded the art
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  image_url TEXT NOT NULL, -- URL or path to art image (optional)
-  description TEXT, -- Description of art (optional)
   FOREIGN KEY (user_id) REFERENCES user (id)
 );

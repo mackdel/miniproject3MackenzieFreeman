@@ -24,17 +24,28 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     # initialize db within app
     from . import db
     db.init_app(app)
 
+    # Set the folder configurations for uploads
+    static_folder = os.path.join(app.root_path, 'static', 'uploads')
+    avatars_folder = os.path.join(static_folder, 'avatars')
+    artworks_folder = os.path.join(static_folder, 'artworks')
+
+    os.makedirs(avatars_folder, exist_ok=True)
+    os.makedirs(artworks_folder, exist_ok=True)
+
+    app.config['UPLOAD_FOLDER'] = static_folder
+    app.config['AVATARS_FOLDER'] = avatars_folder
+    app.config['ARTWORKS_FOLDER'] = artworks_folder
+
     # import and register blueprint from factory
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import post
+    app.register_blueprint(post.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app

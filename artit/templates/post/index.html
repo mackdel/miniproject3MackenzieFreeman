@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('post.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post">
+      <header>
+        <div>
+          <!-- Display Username and Created Date -->
+          <div class="about">by {{ post['firstname'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        <!-- Allow user to edit post if they are the author -->
+        {% if g.user['id'] == post['user_id'] %}
+          <a class="action" href="{{ url_for('post.update', id=post['id']) }}">Edit</a>
+        {% endif %}
+      </header>
+
+      <!-- Display the artwork (image) -->
+      <div class="artwork">
+        <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" alt="Artwork">
+      </div>
+
+      <!-- Display the description (optional) -->
+      <p class="description">{{ post['description'] }}</p>
+    </article>
+
+    <!-- Add a horizontal line between posts unless it is the last post -->
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

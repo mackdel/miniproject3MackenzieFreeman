@@ -124,6 +124,12 @@ nav ul li a, nav ul li span, header .action {
   resize: vertical;
 }
 
+
+.artwork img{
+  max-width: 300px;
+  max-height: 300px;
+}
+
 input.danger {
   color: #cc2f2e;
 }
