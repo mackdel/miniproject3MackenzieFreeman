@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile">
+    <h1>{{ user['firstname'] }} {{ user['lastname'] }}</h1>
+
+    <!-- Display avatar (use default if none uploaded) -->
+    <img src="{{ url_for('static', filename='uploads/avatars/' + (user['avatar'] if user['avatar'] else 'default_avatar.jpg')) }}"
+         alt="Avatar" width="150">
+
+    <!-- Display bio -->
+    <p>{{ user['bio'] or "No bio available." }}</p>
+
+    <!-- Edit profile button -->
+    <a href="{{ url_for('profile.update') }}">Edit Profile</a>
+
+    <hr>
+
+    <h2>Your Artwork</h2>
+    <div class="artworks">
+        {% for artwork in artworks %}
+            <div class="artwork-item">
+                <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork" width="150">
+                <p>{{ artwork['description'] or "No description" }}</p>
+            </div>
+        {% else %}
+            <p>No artwork uploaded yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
