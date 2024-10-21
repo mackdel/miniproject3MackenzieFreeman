@@ -21,7 +21,16 @@ def index():
         'FROM post p JOIN user u ON p.user_id = u.id '
         'ORDER BY p.created DESC'
     ).fetchall()
-    return render_template('post/index.html', posts=posts)
+    # Fetch comments for each post
+    comments_by_post = {}
+    for post in posts:
+        post_id = post['id']
+        comments = db.execute(
+            'SELECT c.body, c.created, u.username FROM comment c JOIN user u ON c.user_id = u.id WHERE c.post_id = ?',
+            (post_id,)
+        ).fetchall()
+        comments_by_post[post_id] = comments
+    return render_template('post/index.html', posts=posts, comments_by_post=comments_by_post)
 
 # Create new post
 @bp.route('/create', methods=('GET', 'POST'))
@@ -111,4 +120,43 @@ def delete(id):
     db = get_db()
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
+    return redirect(url_for('post.index'))
+
+# Likes
+@bp.route('/post/<int:id>/like', methods=('POST',))
+@login_required
+def like(id):
+    db = get_db()
+
+    # Check if the user has already liked the post
+    existing_like = db.execute(
+        'SELECT id FROM likes WHERE user_id = ? AND post_id = ?', (g.user['id'], id)
+    ).fetchone()
+
+    if existing_like:
+        # If the user already liked the post, remove the like (toggle behavior)
+        db.execute('DELETE FROM likes WHERE id = ?', (existing_like['id'],))
+    else:
+        # Add a new like
+        db.execute('INSERT INTO likes (user_id, post_id) VALUES (?, ?)', (g.user['id'], id))
+
+    db.commit()
+    return redirect(url_for('post.index'))
+
+# Comments
+@bp.route('/post/<int:id>/comment', methods=('POST',))
+@login_required
+def comment(id):
+    db = get_db()
+    comment_body = request.form['comment']
+
+    if not comment_body:
+        flash('Comment cannot be empty.')
+    else:
+        db.execute(
+            'INSERT INTO comment (user_id, post_id, body) VALUES (?, ?, ?)',
+            (g.user['id'], id, comment_body)
+        )
+        db.commit()
+
     return redirect(url_for('post.index'))

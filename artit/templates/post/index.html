@@ -23,11 +23,40 @@
 
       <!-- Display the artwork (image) -->
       <div class="artwork">
-        <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" alt="Artwork">
+        <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" alt="Artwork" width="400">
+      </div>
+
+      <!-- Display the likes button and like count -->
+      <div class="likes">
+        <form method="post" action="{{ url_for('post.like', id=post['id']) }}">
+            <button type="submit">
+                👍 Likes ({{ post['likes_count'] }})
+            </button>
+        </form>
       </div>
 
       <!-- Display the description (optional) -->
       <p class="description">{{ post['description'] }}</p>
+
+      <!-- Display comments section -->
+      <div class="comments">
+          <h3>Comments ({{ post['comments_count'] }})</h3>
+          {% for comment in comments_by_post[post['id']] %}
+              <div class="comment">
+                  <p><strong>{{ comment['username'] }}:</strong> {{ comment['body'] }}</p>
+                  <p class="timestamp">{{ comment['created'] }}</p>
+              </div>
+          {% else %}
+              <p>No comments yet.</p>
+          {% endfor %}
+      </div>
+
+      <!-- Add a new comment -->
+      <form method="post" action="{{ url_for('post.comment', id=post['id']) }}">
+          <label for="comment">Add a Comment</label>
+          <textarea name="comment" placeholder="Add a comment..." required></textarea>
+          <button type="submit">Post Comment</button>
+      </form>
     </article>
 
     <!-- Add a horizontal line between posts unless it is the last post -->
