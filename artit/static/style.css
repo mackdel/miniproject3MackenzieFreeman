@@ -21,6 +21,10 @@ hr{
   background-color: var(--main-font-color);
 }
 
+a{
+    color: var(--main-font-color)
+}
+
 
 /* // SITEWIDE */
 .btn-custom {
@@ -77,7 +81,7 @@ hr{
 .navbar-nav .nav-link.active::after {
     content: '';
     position: absolute;
-    bottom: -24px;
+    bottom: -22px;
     left: 0;
     height: 6px;
     background-color: var(--main-color);
@@ -126,4 +130,81 @@ hr{
 
 .col-form-label{
     color: #666464;
+}
+
+/* || POSTS */
+.post-card {
+    border: 1px solid #262626;
+    max-width: 500px;
+}
+
+.post-card .card-body {
+    padding: 0;
+}
+
+.post-card h6.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.post-card .artwork{
+    max-height: 500px;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+.post-card .artwork img {
+    border-bottom: 1px solid #262626;
+    object-fit: cover;
+}
+
+.filled-purple {
+    color: #7E01FA;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-link:hover,
+.btn-link:focus,
+.btn-link:active {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    box-shadow: none;
+}
+
+.post-card .text-muted {
+    font-size: 16px;
+}
+
+.post-card i {
+    font-size: 20px;
+}
+
+.post-card .ml-1 {
+    font-size: 14px;
+}
+
+.post-card .p-3 strong {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.post-card a.text-muted {
+    color: #999;
+}
+
+.post-card .px-3.pb-1 {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.likes, .comments{
+    color: var(--main-font-color);
+    font-weight: 600;
+    font-size: 16px;
 }

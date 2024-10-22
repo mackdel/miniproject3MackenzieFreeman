@@ -14,13 +14,26 @@ bp = Blueprint('post', __name__)
 @bp.route('/')
 def index():
     db = get_db()
-    posts = db.execute(
-        'SELECT p.id, artwork, description, created, user_id, firstname, avatar, '
-        '(SELECT COUNT(*) FROM likes WHERE post_id = p.id) as likes_count, '
-        '(SELECT COUNT(*) FROM comment WHERE post_id = p.id) as comments_count '
-        'FROM post p JOIN user u ON p.user_id = u.id '
-        'ORDER BY p.created DESC'
-    ).fetchall()
+    if g.user:
+        # If the user is logged in, check if they've liked each post
+        posts = db.execute(
+            'SELECT p.id, artwork, description, created, user_id, firstname, lastname, avatar, '
+            '(SELECT COUNT(*) FROM likes WHERE post_id = p.id) as likes_count, '
+            '(SELECT COUNT(*) FROM comment WHERE post_id = p.id) as comments_count, '
+            '(SELECT 1 FROM likes WHERE post_id = p.id AND user_id = ?) as user_liked '
+            'FROM post p JOIN user u ON p.user_id = u.id '
+            'ORDER BY p.created DESC',
+            (g.user['id'],)
+        ).fetchall()
+    else:
+        # If the user is not logged in, don't check if they've liked each post
+        posts = db.execute(
+            'SELECT p.id, artwork, description, created, user_id, firstname, lastname, avatar, '
+            '(SELECT COUNT(*) FROM likes WHERE post_id = p.id) as likes_count, '
+            '(SELECT COUNT(*) FROM comment WHERE post_id = p.id) as comments_count '
+            'FROM post p JOIN user u ON p.user_id = u.id '
+            'ORDER BY p.created DESC'
+        ).fetchall()
     # Fetch comments for each post
     comments_by_post = {}
     for post in posts:
