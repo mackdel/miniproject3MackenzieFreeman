@@ -12,10 +12,10 @@
 
         <div class="profile-info ml-md-4 text-center text-md-left">
             <h5>{{ user['firstname'] }} {{ user['lastname'] }}</h5>
-            {% if user['bio'] != 'None' %}
+            {% if user['bio'] != 'None' and  user['bio']%}
                 <p class="text-muted">{{ user['bio'] }}</p>
             {% endif %}
-            <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Edit Profile</a>
+            <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Settings</a>
         </div>
     </div>
 

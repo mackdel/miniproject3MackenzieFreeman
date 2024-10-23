@@ -6,6 +6,10 @@
 <div class="container mt-5 mb-3">
     <div class="row justify-content-center">
         <div class="col-md-7 ">
+            <div class="mb-4">
+                <a href="{{ url_for('profile.profile') }}" class="text-dark">Close</a>
+            </div>
+
             <div class="d-flex justify-content-center align-items-center flex-column flex-md-row">
                 <div class="profile-avatar text-center text-md-left mb-3 mb-md-0">
                     <img src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
@@ -14,7 +18,8 @@
 
                 <div class="profile-info ml-md-4 text-center text-md-left">
                     <h5>{{ user['firstname'] }} {{ user['lastname'] }}</h5>
-                    <a href="" class="edit-profile-link text-purple">Update Profile Image</a>
+                    <li class="mb-2"><a href="#" class="edit-profile-link text-purple">Update Profile Image</a></li>
+                    <li class="mt-4"><a href="{{ url_for('auth.logout') }}" class="text-muted">Logout</a></li>
                 </div>
             </div>
 

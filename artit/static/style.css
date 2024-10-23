@@ -281,6 +281,7 @@ a:hover{
     word-wrap: break-word;
     padding-left: 20px;
     padding-right: 20px;
+    list-style-type: none;
 }
 
 .profile-info p {
