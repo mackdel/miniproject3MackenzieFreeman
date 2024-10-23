@@ -54,7 +54,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- JavaScript to handle image preview -->
+    <!-- JavaScript to handle image preview when creating a post-->
     <script>
         function previewImage(event) {
             if (event.target.files && event.target.files[0]) {
@@ -71,6 +71,24 @@
                 }
 
                 reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        <!-- JavaScript to handle image preview when updating profile picture-->
+        function triggerImageUpload() {
+            document.getElementById('profileImageInput').click();
+        }
+
+        function previewProfileImage(event) {
+            const input = event.target;
+            const profileImage = document.getElementById('profileImage');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImage.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
