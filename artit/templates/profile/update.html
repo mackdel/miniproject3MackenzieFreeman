@@ -5,17 +5,17 @@
 {% block content %}
 <div class="container mt-5 mb-3">
     <div class="row justify-content-center">
-        <div class="col-md-8 ">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-md-3">
+        <div class="col-md-7 ">
+            <div class="d-flex justify-content-center align-items-center flex-column flex-md-row">
+                <div class="profile-avatar text-center text-md-left mb-3 mb-md-0">
                     <img src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
-                         class="rounded-circle mb-4" width="150" height="150" alt="User Avatar">
+                         class="rounded-circle" width="150" height="150" alt="User Avatar">
                 </div>
 
-                <div class="col-md-5 text-left">
+                <div class="profile-info ml-md-4 text-center text-md-left">
                     <h5>{{ user['firstname'] }} {{ user['lastname'] }}</h5>
-                    <a href="#" class="text-purple d-block mb-3">Update profile photo</a>
-                    </div>
+                    <a href="" class="edit-profile-link text-purple">Update Profile Image</a>
+                </div>
             </div>
 
             <hr class="profile-divider">

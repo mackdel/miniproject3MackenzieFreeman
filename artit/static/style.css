@@ -268,9 +268,31 @@ a:hover{
 }
 
 
-/* || PROFILE GALLERY */
+/* || PROFILE */
+.profile-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-info {
+    max-width: 500px;
+    text-align: center;
+    word-wrap: break-word;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.profile-info p {
+    word-wrap: break-word;
+}
+
+.edit-profile-link {
+    font-weight: 600;
+}
+
 .profile-divider {
-    margin-top: 20px;
+    margin-top: 50px;
     margin-bottom: 25px;
     border-top: 1px solid var(--main-font-color);
     width: 100%;
@@ -278,15 +300,17 @@ a:hover{
 
 .artwork-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 10px;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .artwork-item {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 100%; /* Square aspect ratio */
+    padding-bottom: 100%;
     overflow: hidden;
 }
 
@@ -299,6 +323,3 @@ a:hover{
     object-fit: cover;
     display: block;
 }
-
-
-
