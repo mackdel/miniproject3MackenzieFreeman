@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mt-5 mb-3">
     <div class="row justify-content-center align-items-center">
-        <div class="col-md-3 text-center">
+        <div class="col-md-3">
             <img src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                  class="rounded-circle mb-4" width="190" height="190" alt="User Avatar">
         </div>

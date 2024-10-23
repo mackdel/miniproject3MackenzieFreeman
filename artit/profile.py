@@ -14,7 +14,7 @@ bp = Blueprint('profile', __name__)
 def profile():
     db = get_db()
     user = db.execute(
-        'SELECT id, firstname, lastname, bio, avatar FROM user WHERE id = ?', (g.user['id'],)
+        'SELECT id, username, firstname, lastname, bio, avatar FROM user WHERE id = ?', (g.user['id'],)
     ).fetchone()
     artworks = db.execute(
         'SELECT id, artwork, description, created FROM post WHERE user_id = ? ORDER BY created DESC', (g.user['id'],)
@@ -31,6 +31,7 @@ def update():
     if request.method == 'POST':
         firstname = request.form['firstname']
         lastname = request.form['lastname']
+        username = request.form['username']
         bio = request.form['bio']
         avatar = request.files.get('avatar')
         filename = g.user['avatar']
@@ -42,8 +43,8 @@ def update():
                 avatar.save(avatar_path)
 
         db.execute(
-            'UPDATE user SET firstname = ?, lastname = ?, bio = ?, avatar = ? WHERE id = ?',
-            (firstname, lastname, bio, filename, g.user['id'])
+            'UPDATE user SET username = ?, firstname = ?, lastname = ?, bio = ?, avatar = ? WHERE id = ?',
+            (username, firstname, lastname, bio, filename, g.user['id'])
         )
         db.commit()
 
@@ -51,7 +52,7 @@ def update():
 
     # Pre-populate the form with current user info
     user = db.execute(
-        'SELECT firstname, lastname, bio, avatar FROM user WHERE id = ?', (g.user['id'],)
+        'SELECT firstname, lastname, username, bio, avatar FROM user WHERE id = ?', (g.user['id'],)
     ).fetchone()
 
     if user is None:
