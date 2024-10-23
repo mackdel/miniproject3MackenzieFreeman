@@ -5,7 +5,6 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Loop through each post and create a card -->
         {% for post in posts %}
         <div class="col-12 mb-4 d-flex justify-content-center">
             <div class="card post-card border-dark">
@@ -20,8 +19,8 @@
                         </div>
                     </div>
 
-                    <div class="artwork">
-                        <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid" alt="Artwork">
+                    <div class="artwork text-center">
+                        <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid mx-auto d-block" alt="Artwork">
                     </div>
 
                     <div class="d-flex align-items-center p-3">
