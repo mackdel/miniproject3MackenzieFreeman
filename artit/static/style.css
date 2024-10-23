@@ -266,3 +266,39 @@ a:hover{
 .artwork img.show {
     display: block;
 }
+
+
+/* || PROFILE GALLERY */
+.profile-divider {
+    margin-top: 20px;
+    margin-bottom: 25px;
+    border-top: 1px solid var(--main-font-color);
+    width: 100%;
+}
+
+.artwork-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+}
+
+.artwork-item {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Square aspect ratio */
+    overflow: hidden;
+}
+
+.artwork-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+

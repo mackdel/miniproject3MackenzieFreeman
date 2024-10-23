@@ -19,6 +19,7 @@ def profile():
     artworks = db.execute(
         'SELECT id, artwork, description, created FROM post WHERE user_id = ? ORDER BY created DESC', (g.user['id'],)
     ).fetchall()
+    print(artworks)
     return render_template('profile/index.html', user=user, artworks=artworks)
 
 # Edit profile page

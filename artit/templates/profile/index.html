@@ -1,33 +1,36 @@
 {% extends 'base.html' %}
 
+{% block title %}Profile{% endblock %}
+
 {% block content %}
-<div class="profile">
-    <h1>{{ user['firstname'] }} {{ user['lastname'] }}</h1>
+<div class="container mt-5 mb-3">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-3 text-center">
+            <img src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                 class="rounded-circle mb-4" width="190" height="190" alt="User Avatar">
+        </div>
 
-    <!-- Display avatar (use default if none uploaded) -->
-    <img src="{{ url_for('static', filename='uploads/avatars/' + (user['avatar'] if user['avatar'] else 'default_avatar.jpg')) }}"
-         alt="Avatar" width="150">
+        <div class="col-md-6">
+            <h4>{{ user['firstname'] }} {{ user['lastname'] }}</h4>
+            {% if user['bio'] != 'None' %}
+                <p class="text-muted">{{ user['bio'] }}</p>
+            {% endif %}
+            <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Edit</a>
+        </div>
+    </div>
 
-    <!-- Display bio -->
-    <p>{{ user['bio'] or "No bio available." }}</p>
+    <hr class="profile-divider">
 
-    <!-- Edit profile button -->
-    <a href="{{ url_for('profile.update') }}">Edit Profile</a>
-
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-
-    <hr>
-
-    <h2>Your Artwork</h2>
-    <div class="artworks">
+    <div class="artwork-gallery ">
         {% for artwork in artworks %}
-            <div class="artwork-item">
-                <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork" width="150">
-                <p>{{ artwork['description'] or "No description" }}</p>
-            </div>
+        <div class="artwork-item">
+            <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork">
+        </div>
         {% else %}
-            <p>No artwork uploaded yet.</p>
+        <p>No artwork uploaded yet.</p>
         {% endfor %}
     </div>
 </div>
 {% endblock %}
+
+
