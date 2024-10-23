@@ -238,6 +238,10 @@ a:hover{
 
 
 /* || NEW POST */
+.top-btns{
+    max-width: 500px;
+}
+
 .text-purple.bold {
     font-weight: 600;
 }
