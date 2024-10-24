@@ -13,14 +13,17 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        # Get form data
         username = request.form['username']
         password = request.form['password']
         firstname = request.form['firstname']
         lastname = request.form['lastname']
+        confirm_password = request.form['confirm_password']
 
         db = get_db()
         error = None
 
+        # Validate fields
         if not username:
             error = 'Username is required.'
         elif not password:
@@ -35,14 +38,15 @@ def register():
                     (username, generate_password_hash(password), firstname, lastname)
                 )
                 db.commit()
+                return redirect(url_for("auth.login"))
             except db.IntegrityError:
                 error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
 
         flash(error)
+        return render_template('auth/register.html', username=username, firstname=firstname, lastname=lastname)
 
     return render_template('auth/register.html')
+
 
 # Login
 @bp.route('/login', methods=('GET', 'POST'))

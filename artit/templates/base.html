@@ -107,6 +107,36 @@
             }
         }
 
+        <!-- JavaScript for password confirmation validation-->
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            var password = document.getElementById('password');
+            var confirmPassword = document.getElementById('confirm_password');
+
+            // Check if passwords match
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.classList.add('is-invalid');  // Show invalid feedback
+                confirmPassword.classList.remove('is-valid'); // Remove valid feedback if present
+                event.preventDefault();  // Prevent form submission
+            } else {
+                confirmPassword.classList.remove('is-invalid');  // Remove invalid feedback if present
+                confirmPassword.classList.add('is-valid');  // Show valid feedback
+            }
+        });
+
+        <!-- Additional listener for real-time password matching-->
+        document.getElementById('confirm_password').addEventListener('input', function() {
+            var password = document.getElementById('password');
+            var confirmPassword = document.getElementById('confirm_password');
+
+            // Check passwords in real-time as the user types
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.classList.add('is-invalid');  // Show invalid feedback
+                confirmPassword.classList.remove('is-valid'); // Remove valid feedback
+            } else {
+                confirmPassword.classList.remove('is-invalid');  // Remove invalid feedback
+                confirmPassword.classList.add('is-valid');  // Show valid feedback
+            }
+        });
 
     </script>
 </body>
