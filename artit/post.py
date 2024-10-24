@@ -49,7 +49,6 @@ def index():
 @bp.route('/post/<int:id>', methods=['GET'])
 def view_post(id):
     db = get_db()
-    # Include user_id in the SELECT query
     post = db.execute(
         'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname '
         'FROM post p JOIN user u ON p.user_id = u.id '
@@ -98,11 +97,11 @@ def create():
     return render_template('post/create.html')
 
 # Update post
-def get_post(id, check_author=True):
+def get_post(id, check_author=False):
     post = get_db().execute(
-        'SELECT p.id, artwork, description, created, user_id, username'
-        ' FROM post p JOIN user u ON p.user_id = u.id'
-        ' WHERE p.id = ?',
+        'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname '
+        'FROM post p JOIN user u ON p.user_id = u.id '
+        'WHERE p.id = ?',
         (id,)
     ).fetchone()
 
@@ -117,7 +116,7 @@ def get_post(id, check_author=True):
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id):
-    post = get_post(id)
+    post = get_post(id, check_author=True)  # Ensure the user is the author of the post
 
     if request.method == 'POST':
         description = request.form['description']
@@ -146,6 +145,7 @@ def update(id):
             return redirect(url_for('post.index'))
 
     return render_template('post/update.html', post=post)
+
 
 # Delete Post
 @bp.route('/<int:id>/delete', methods=('POST',))

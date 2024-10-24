@@ -26,7 +26,7 @@
                         <small class="text-muted">{{ post['created'].strftime('%Y-%m-%d') }}</small>
                     </div>
                     {% if g.user and g.user['id'] == post['user_id'] %}
-                        <a href="#" class="ml-auto edit-profile-link text-purple">Edit</a> <!-- Edit link -->
+                        <a href="{{ url_for('post.update', id=post['id']) }}" class="ml-auto edit-profile-link text-purple">Edit</a>
                     {% endif %}
                 </div>
 

@@ -301,6 +301,10 @@ a:hover{
     z-index: 1000;
 }
 
+.artwork-preview.show{
+    z-index: 0;
+}
+
 .upload-label {
     position: absolute;
     text-align: center;
