@@ -31,20 +31,20 @@
                   </a>
                 </li>
                   <li class="nav-item">
-                  {% if g.user %}
-                    <!-- If user is logged in, show profile link -->
-                    <a class="nav-link {{ 'active' if request.endpoint == 'profile.view_profile' else '' }}"
-                       href="{{ url_for('profile.view_profile', user_id=g.user['id']) }}">
-                       <img src="{% if g.user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + g.user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
-                            class="rounded-circle" width="30" height="30" alt="Profile Picture">
-                       <span class="d-none d-lg-inline">Profile</span>
-                    </a>
-                  {% else %}
-                    <!-- If user is not logged in, show Login/Register link -->
-                    <a class="nav-link {{ 'active' if request.endpoint == 'auth.login' or request.endpoint == 'auth.register' else '' }}" href="{{ url_for('auth.login') }}">
-                        <i class="material-symbols-outlined">account_box</i><span class="d-none d-lg-inline">Login/Register</span>
-                    </a>
-                  {% endif %}
+                    {% if g.user %}
+                        <!-- Only highlight profile link if the logged-in user is viewing their own profile -->
+                        <a class="nav-link {{ 'active' if request.endpoint == 'profile.view_profile' and request.view_args.get('user_id') == g.user['id'] else '' }}"
+                           href="{{ url_for('profile.view_profile', user_id=g.user['id']) }}">
+                           <img src="{% if g.user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + g.user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                                class="rounded-circle" width="30" height="30" alt="Profile Picture">
+                           <span class="d-none d-lg-inline">Profile</span>
+                        </a>
+                    {% else %}
+                        <!-- If user is not logged in, show Login/Register link -->
+                        <a class="nav-link {{ 'active' if request.endpoint == 'auth.login' or request.endpoint == 'auth.register' else '' }}" href="{{ url_for('auth.login') }}">
+                            <i class="material-symbols-outlined">account_box</i><span class="d-none d-lg-inline">Login/Register</span>
+                        </a>
+                    {% endif %}
                 </li>
               </ul>
             </div>
