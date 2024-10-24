@@ -9,18 +9,27 @@ import os
 bp = Blueprint('profile', __name__)
 
 # Profile page (shows user's profile and uploaded artworks)
-@bp.route('/profile', methods=('GET',))
+@bp.route('/profile/<int:user_id>', methods=['GET'])
 @login_required
-def profile():
+def view_profile(user_id):
     db = get_db()
     user = db.execute(
-        'SELECT id, username, firstname, lastname, bio, avatar FROM user WHERE id = ?', (g.user['id'],)
+        'SELECT id, firstname, lastname, bio, avatar FROM user WHERE id = ?',
+        (user_id,)
     ).fetchone()
-    artworks = db.execute(
-        'SELECT id, artwork, description, created FROM post WHERE user_id = ? ORDER BY created DESC', (g.user['id'],)
+
+    if not user:
+        flash('User not found.')
+        return redirect(url_for('post.index'))
+
+    # Fetch the user's posts (artwork) from the 'post' table
+    posts = db.execute(
+        'SELECT * FROM post WHERE user_id = ?',
+        (user_id,)
     ).fetchall()
-    print(artworks)
-    return render_template('profile/index.html', user=user, artworks=artworks)
+
+    return render_template('profile/index.html', user=user, artworks=posts)  # 'artworks' is now posts
+
 
 # Edit profile page
 @bp.route('/profile/update', methods=('GET', 'POST'))
@@ -48,7 +57,8 @@ def update():
         )
         db.commit()
 
-        return redirect(url_for('profile.profile'))
+        # Redirect to the user's own profile page after update
+        return redirect(url_for('profile.view_profile', user_id=g.user['id']))
 
     # Pre-populate the form with current user info
     user = db.execute(
@@ -57,7 +67,7 @@ def update():
 
     if user is None:
         flash('User not found.')
-        return redirect(url_for('profile.profile'))
+        return redirect(url_for('profile.view_profile', user_id=g.user['id']))
 
     return render_template('profile/update.html', user=user)
 

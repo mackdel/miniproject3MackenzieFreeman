@@ -4,13 +4,17 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="mb-3">
-                {% if request.args.get('from') == 'profile' %}
-                    <a href="{{ url_for('profile.profile') }}" class="text-dark">Close</a>
-                {% else %}
-                    <a href="{{ url_for('post.index') }}" class="text-dark">Close</a>
-                {% endif %}
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        {% if request.args.get('from') == 'profile' %}
+            <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}" class="text-dark">Close</a>
+        {% else %}
+            <a href="{{ url_for('post.index') }}" class="text-dark">Close</a>
+        {% endif %}
+
+        {% if g.user and g.user['id'] == post['user_id'] %}
+            <a href="{{ url_for('post.update', id=post['id']) }}" class="ml-auto edit-profile-link text-purple">Edit</a>
+        {% endif %}
+    </div>
 
     <div class="row mb-4">
         <div class="col-md-7 mb-4 artwork-view">
@@ -22,12 +26,11 @@
                     <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="55" height="55" alt="User Avatar">
                     <div class="ml-3">
-                        <h6>{{ post['firstname'] }} {{ post['lastname'] }}</h6>
+                        <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
+                            <h6 class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</h6>
+                        </a>
                         <small class="text-muted">{{ post['created'].strftime('%Y-%m-%d') }}</small>
                     </div>
-                    {% if g.user and g.user['id'] == post['user_id'] %}
-                        <a href="{{ url_for('post.update', id=post['id']) }}" class="ml-auto edit-profile-link text-purple">Edit</a>
-                    {% endif %}
                 </div>
 
             <hr class="profile-divider mt-4 mb-0">
@@ -38,7 +41,10 @@
                     <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="40" height="40" alt="User Avatar">
                     <div class="px-3 comment-text">
-                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong>  {{ post['description'] }}
+                        <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
+                            <strong class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</strong>
+                        </a>
+                        {{ post['description'] }}
                     </div>
                 </div>
                 {% endif %}
@@ -47,7 +53,10 @@
                     <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="40" height="40" alt="User Avatar">
                     <div class="px-3  comment-text">
-                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong>  {{ comment['body'] }}
+                        <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
+                            <strong class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</strong>
+                        </a>
+                        {{ comment['body'] }}
                     </div>
                 </div>
                 {% endfor %}

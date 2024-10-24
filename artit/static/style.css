@@ -151,6 +151,14 @@ a:hover{
     color: var(--dark-grey);
 }
 
+.link-profile-view{
+    color: var(--main-font-color);
+}
+
+.link-profile-view:hover{
+    color: var(--main-color);
+}
+
 /* || POSTS */
 .post-card {
     border: 1px solid var(--main-font-color);

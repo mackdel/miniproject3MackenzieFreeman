@@ -9,11 +9,13 @@
         <div class="col-12 mb-4 d-flex justify-content-center">
             <div class="card post-card border-dark">
                 <div class="card-body ">
-                    <div class="d-flex align-items-center p-3">
+                    <div class="d-flex p-3">
                         <img src="{% if post['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                             class="rounded-circle" width="50" height="50" alt="User Avatar">
                         <div class="d-flex align-items-center ml-3 ">
-                            <h6 class="card-title">{{ post['firstname'] }} {{ post['lastname'] }}</h6>
+                            <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
+                                <h6 class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</h6>
+                            </a>
                             <small class="text-muted ml-2">-</small>
                             <small class="text-muted ml-2">{{ post['created'].strftime('%Y-%m-%d') }}</small>
                         </div>

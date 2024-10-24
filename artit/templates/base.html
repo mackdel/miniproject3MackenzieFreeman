@@ -31,7 +31,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link {{ 'active' if request.endpoint == 'profile.profile' else '' }}" href="{{ url_for('profile.profile') }}">
+                 <a class="nav-link {{ 'active' if request.endpoint == 'profile.view_profile' else '' }}" href="{{ url_for('profile.view_profile', user_id=g.user['id']) }}">
                     <img src="{% if g.user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + g.user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                     class="rounded-circle" width="30" height="30" alt="Profile Picture">
                     <span class="d-none d-lg-inline">Profile</span>

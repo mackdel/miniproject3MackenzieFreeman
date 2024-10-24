@@ -15,7 +15,9 @@
             {% if user['bio'] != 'None' and  user['bio']%}
                 <p class="text-muted">{{ user['bio'] }}</p>
             {% endif %}
-            <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Settings</a>
+            {% if g.user['id'] == user['id'] %}
+                <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Settings</a>
+            {% endif %}
         </div>
     </div>
 
