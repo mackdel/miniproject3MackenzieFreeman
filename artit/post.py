@@ -45,10 +45,14 @@ def index():
         comments_by_post[post_id] = comments
     return render_template('post/index.html', posts=posts, comments_by_post=comments_by_post)
 
+
 # View Singular Post
 @bp.route('/post/<int:id>', methods=['GET'])
+@login_required
 def view_post(id):
     db = get_db()
+
+    # Fetch the post information
     post = db.execute(
         'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname, '
         '(SELECT 1 FROM likes WHERE post_id = p.id AND user_id = ?) as user_liked '
@@ -60,11 +64,19 @@ def view_post(id):
     if not post:
         return redirect(url_for('post.index'))
 
-    comments = db.execute('SELECT * FROM comment WHERE post_id = ?', (id,)).fetchall()
+    # Fetch the comments, including the commenter’s information
+    comments = db.execute('''
+        SELECT c.body, c.created, u.firstname, u.lastname, u.avatar 
+        FROM comment c 
+        JOIN user u ON c.user_id = u.id 
+        WHERE c.post_id = ? 
+        ORDER BY c.created ASC
+    ''', (id,)).fetchall()
+
+    # Fetch the like count
     likes_count = db.execute('SELECT COUNT(*) FROM likes WHERE post_id = ?', (id,)).fetchone()[0]
 
     return render_template('post/view.html', post=post, comments=comments, likes_count=likes_count)
-
 
 # Create new post
 @bp.route('/create', methods=('GET', 'POST'))
@@ -183,11 +195,18 @@ def like(id):
 @bp.route('/post/<int:id>/comment', methods=['POST'])
 @login_required
 def comment(id):
-    comment_body = request.form['comment']
     db = get_db()
-    db.execute('INSERT INTO comment (user_id, post_id, body) VALUES (?, ?, ?)', (g.user['id'], id, comment_body))
+    comment_body = request.form['comment']
+
+    # Use the logged-in user's ID for the comment
+    db.execute(
+        'INSERT INTO comment (user_id, post_id, body) VALUES (?, ?, ?)',
+        (g.user['id'], id, comment_body)
+    )
     db.commit()
+
     return redirect(url_for('post.view_post', id=id))
+
 
 
 

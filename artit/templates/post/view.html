@@ -50,11 +50,11 @@
                 {% endif %}
                 {% for comment in comments %}
                 <div class="d-flex mb-4 comment">
-                    <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                    <img src="{% if comment['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + comment['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="40" height="40" alt="User Avatar">
                     <div class="px-3  comment-text">
                         <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
-                            <strong class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</strong>
+                            <strong class="card-title link-profile-view">{{ comment['firstname'] }} {{ comment['lastname'] }}</strong>
                         </a>
                         {{ comment['body'] }}
                     </div>
