@@ -29,12 +29,15 @@
 
                     <div class="d-flex align-items-center p-3">
                         <form method="post" action="{{ url_for('post.like', id=post['id']) }}" class="mr-3">
-                            <button type="submit" class="btn btn-link p-0 d-flex align-items-center">
-                                <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
+                            <button type="submit" class="btn btn-link p-0 d-flex align-items-center ">
+                                <i class="material-symbols-outlined link-profile-view {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
                                 <span class="ml-2 likes">{{ post['likes_count'] }} likes</span>
                             </button>
                         </form>
-                        <i class="material-symbols-outlined ml-4 ">mode_comment</i><span class="ml-2 comments">{{ post['comments_count'] }} comments</span>
+                        <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-flex align-items-center ml-4 text-decoration-none link-profile-view">
+                            <i class="material-symbols-outlined">mode_comment</i>
+                            <span class="ml-2 comments link-profile-view">{{ post['comments_count'] }} comments</span>
+                        </a>
                     </div>
 
                     <div class="px-3 p-1">
