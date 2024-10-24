@@ -24,7 +24,9 @@
     <div class="artwork-gallery">
         {% for artwork in artworks %}
         <div class="artwork-item">
-            <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork">
+            <a href="{{ url_for('post.view_post', id=artwork['id'], from='profile') }}">
+                <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork">
+            </a>
         </div>
         {% else %}
         <p>No artwork uploaded yet.</p>

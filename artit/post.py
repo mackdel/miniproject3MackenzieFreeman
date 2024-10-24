@@ -45,6 +45,27 @@ def index():
         comments_by_post[post_id] = comments
     return render_template('post/index.html', posts=posts, comments_by_post=comments_by_post)
 
+# View Singular Post
+@bp.route('/post/<int:id>', methods=['GET'])
+def view_post(id):
+    db = get_db()
+    # Include user_id in the SELECT query
+    post = db.execute(
+        'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname '
+        'FROM post p JOIN user u ON p.user_id = u.id '
+        'WHERE p.id = ?',
+        (id,)
+    ).fetchone()
+
+    if not post:
+        return redirect(url_for('post.index'))
+
+    comments = db.execute('SELECT * FROM comment WHERE post_id = ?', (id,)).fetchall()
+    likes_count = db.execute('SELECT COUNT(*) FROM likes WHERE post_id = ?', (id,)).fetchone()[0]
+
+    return render_template('post/view.html', post=post, comments=comments, likes_count=likes_count)
+
+
 # Create new post
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -126,6 +147,7 @@ def update(id):
 
     return render_template('post/update.html', post=post)
 
+# Delete Post
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
@@ -157,19 +179,16 @@ def like(id):
     return redirect(url_for('post.index'))
 
 # Comments
-@bp.route('/post/<int:id>/comment', methods=('POST',))
+@bp.route('/post/<int:id>/comment', methods=['POST'])
 @login_required
 def comment(id):
-    db = get_db()
     comment_body = request.form['comment']
+    db = get_db()
+    db.execute('INSERT INTO comment (user_id, post_id, body) VALUES (?, ?, ?)', (g.user['id'], id, comment_body))
+    db.commit()
+    return redirect(url_for('post.view_post', id=id))
 
-    if not comment_body:
-        flash('Comment cannot be empty.')
-    else:
-        db.execute(
-            'INSERT INTO comment (user_id, post_id, body) VALUES (?, ?, ?)',
-            (g.user['id'], id, comment_body)
-        )
-        db.commit()
 
-    return redirect(url_for('post.index'))
+
+
+

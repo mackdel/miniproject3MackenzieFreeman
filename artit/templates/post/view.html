@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}View Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="mb-3">
+                {% if request.args.get('from') == 'profile' %}
+                    <a href="{{ url_for('profile.profile') }}" class="text-dark">Close</a>
+                {% else %}
+                    <a href="{{ url_for('post.index') }}" class="text-dark">Close</a>
+                {% endif %}
+            </div>
+
+    <div class="row mb-4">
+        <div class="col-md-7 mb-4 artwork-view">
+            <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid" alt="Artwork" style="max-width: 100%;">
+        </div>
+
+        <div class="col-md-5 d-flex flex-column">
+                <div class="d-flex">
+                    <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                         class="rounded-circle" width="55" height="55" alt="User Avatar">
+                    <div class="ml-3">
+                        <h6>{{ post['firstname'] }} {{ post['lastname'] }}</h6>
+                        <small class="text-muted">{{ post['created'].strftime('%Y-%m-%d') }}</small>
+                    </div>
+                    {% if g.user and g.user['id'] == post['user_id'] %}
+                        <a href="#" class="ml-auto edit-profile-link text-purple">Edit</a> <!-- Edit link -->
+                    {% endif %}
+                </div>
+
+            <hr class="profile-divider mt-4 mb-0">
+
+            <div id="post-comments" class="comment-section">
+                {% if post['description'] %}
+                <div class="d-flex mb-3 comment">
+                    <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                         class="rounded-circle" width="40" height="40" alt="User Avatar">
+                    <div class="px-3 comment-text">
+                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong>  {{ post['description'] }}
+                    </div>
+                </div>
+                {% endif %}
+                {% for comment in comments %}
+                <div class="d-flex mb-4 comment">
+                    <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
+                         class="rounded-circle" width="40" height="40" alt="User Avatar">
+                    <div class="px-3  comment-text">
+                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong>  {{ comment['body'] }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <hr class="profile-divider mt-0">
+
+            <div class="d-flex align-items-center mb-3">
+                <form method="post" action="{{ url_for('post.like', id=post['id']) }}" class="mr-3">
+                    <button type="submit" class="btn btn-link p-0 d-flex align-items-center">
+                        <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
+                        <span class="ml-2 likes">{{ likes_count}} likes</span>
+                    </button>
+                </form>
+                <i class="material-symbols-outlined ml-4">mode_comment</i><span class="ml-2 comments">{{ comments|length }} comments</span>
+            </div>
+
+            <form action="{{ url_for('post.comment', id=post['id']) }}" method="POST" class="d-flex align-items-center">
+                <input type="text" name="comment" class="form-control" placeholder="Add a comment..." required maxlength="70">
+                <button type="submit" class="btn-custom ml-2">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
