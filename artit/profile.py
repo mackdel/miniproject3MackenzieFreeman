@@ -22,13 +22,12 @@ def view_profile(user_id):
         flash('User not found.')
         return redirect(url_for('post.index'))
 
-    # Fetch the user's posts (artwork) from the 'post' table
-    posts = db.execute(
+    artworks = db.execute(
         'SELECT * FROM post WHERE user_id = ?',
         (user_id,)
     ).fetchall()
 
-    return render_template('profile/index.html', user=user, artworks=posts)  # 'artworks' is now posts
+    return render_template('profile/index.html', user=user, artworks=artworks)
 
 
 # Edit profile page
