@@ -6,7 +6,7 @@
 <div class="container mt-5">
     <div class="row">
         {% for post in posts %}
-        <div class="col-12 mb-4 d-flex justify-content-center">
+        <div id="post-{{ post['id'] }}" class="col-12 mb-4 d-flex justify-content-center">
             <div class="card post-card border-dark">
                 <div class="card-body ">
                     <div class="d-flex p-3">
@@ -28,10 +28,11 @@
                     </div>
 
                     <div class="d-flex align-items-center p-3">
-                        <form method="post" action="{{ url_for('post.like', id=post['id']) }}" class="mr-3">
-                            <button type="submit" class="btn btn-link p-0 d-flex align-items-center ">
-                                <i class="material-symbols-outlined link-profile-view {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
-                                <span class="ml-2 likes">{{ post['likes_count'] }} likes</span>
+                        <form id="like-form-{{ post['id'] }}" class="mr-3">
+                            <input type="hidden" name="from" value="index">
+                            <button type="button" class="btn btn-link p-0 d-flex align-items-center" id="like-button-{{ post['id'] }}" onclick="likePost({{ post['id'] }})">
+                                <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
+                                <span class="ml-2 likes" id="likes-count-{{ post['id'] }}">{{ post['likes_count'] }} likes</span>
                             </button>
                         </form>
                         <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-flex align-items-center ml-4 text-decoration-none link-profile-view">

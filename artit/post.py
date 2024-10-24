@@ -7,6 +7,7 @@ from artit.auth import login_required
 from artit.db import get_db
 import os
 from flask import current_app
+from flask import jsonify
 
 bp = Blueprint('post', __name__)
 
@@ -179,14 +180,18 @@ def like(id):
     ).fetchone()
 
     if existing_like:
-        # If the user already liked the post, remove the like (toggle behavior)
         db.execute('DELETE FROM likes WHERE id = ?', (existing_like['id'],))
     else:
-        # Add a new like
         db.execute('INSERT INTO likes (user_id, post_id) VALUES (?, ?)', (g.user['id'], id))
 
     db.commit()
-    return redirect(url_for('post.index'))
+
+    # Fetch the updated like count
+    likes_count = db.execute('SELECT COUNT(*) FROM likes WHERE post_id = ?', (id,)).fetchone()[0]
+
+    # Return the updated like count as JSON
+    return jsonify(likes=likes_count)
+
 
 # Comments
 @bp.route('/post/<int:id>/comment', methods=['POST'])

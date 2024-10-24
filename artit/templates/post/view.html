@@ -94,12 +94,10 @@
             <hr class="profile-divider mt-0">
 
             <div class="d-flex align-items-center mb-3">
-                <form method="post" action="{{ url_for('post.like', id=post['id']) }}" class="mr-3">
-                    <button type="submit" class="btn btn-link p-0 d-flex align-items-center">
-                        <i class="material-symbols-outlined link-profile-view {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
-                        <span class="ml-2 likes">{{ likes_count}} likes</span>
-                    </button>
-                </form>
+                <button type="button" class="btn btn-link p-0 d-flex align-items-center" id="like-button-{{ post['id'] }}" onclick="likePost({{ post['id'] }})">
+                    <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
+                    <span id="likes-count-{{ post['id'] }}" class="ml-2 likes">{{ likes_count }} likes</span>
+                </button>
                 <i class="material-symbols-outlined ml-4">mode_comment</i><span class="ml-2 comments">{{ comments|length }} comments</span>
             </div>
 
