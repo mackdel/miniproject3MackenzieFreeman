@@ -50,10 +50,11 @@ def index():
 def view_post(id):
     db = get_db()
     post = db.execute(
-        'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname '
+        'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname, '
+        '(SELECT 1 FROM likes WHERE post_id = p.id AND user_id = ?) as user_liked '
         'FROM post p JOIN user u ON p.user_id = u.id '
         'WHERE p.id = ?',
-        (id,)
+        (g.user['id'], id)
     ).fetchone()
 
     if not post:
