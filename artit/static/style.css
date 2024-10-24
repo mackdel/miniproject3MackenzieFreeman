@@ -25,9 +25,7 @@ hr{
 
 a:hover{
     text-decoration: none;
-    color: inherit;
 }
-
 
 /* // SITEWIDE */
 .btn-custom {
@@ -72,6 +70,10 @@ a:hover{
 
 .text-purple{
     color: var(--main-color) !important;
+}
+
+.text-purple:hover {
+    color: var(--main-font-color) !important;
 }
 
 .navbar {
@@ -207,7 +209,6 @@ a:hover{
 .btn-link:focus,
 .btn-link:active {
     text-decoration: none;
-    color: inherit;
     outline: none;
     box-shadow: none;
 }

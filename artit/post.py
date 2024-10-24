@@ -51,8 +51,6 @@ def index():
 @login_required
 def view_post(id):
     db = get_db()
-
-    # Fetch the post information
     post = db.execute(
         'SELECT p.id, p.artwork, p.description, p.created, p.user_id, u.avatar as user_avatar, u.firstname, u.lastname, '
         '(SELECT 1 FROM likes WHERE post_id = p.id AND user_id = ?) as user_liked '
@@ -64,19 +62,18 @@ def view_post(id):
     if not post:
         return redirect(url_for('post.index'))
 
-    # Fetch the comments, including the commenter’s information
-    comments = db.execute('''
-        SELECT c.body, c.created, u.firstname, u.lastname, u.avatar 
-        FROM comment c 
-        JOIN user u ON c.user_id = u.id 
-        WHERE c.post_id = ? 
-        ORDER BY c.created ASC
-    ''', (id,)).fetchall()
+    # Fetch comments with user info
+    comments = db.execute(
+        'SELECT c.id, c.body, c.created, u.id as user_id, u.firstname, u.lastname, u.avatar '
+        'FROM comment c JOIN user u ON c.user_id = u.id '
+        'WHERE c.post_id = ?',
+        (id,)
+    ).fetchall()
 
-    # Fetch the like count
     likes_count = db.execute('SELECT COUNT(*) FROM likes WHERE post_id = ?', (id,)).fetchone()[0]
 
     return render_template('post/view.html', post=post, comments=comments, likes_count=likes_count)
+
 
 # Create new post
 @bp.route('/create', methods=('GET', 'POST'))
@@ -206,6 +203,27 @@ def comment(id):
     db.commit()
 
     return redirect(url_for('post.view_post', id=id))
+
+# Delete Comment
+@bp.route('/post/<int:post_id>/comment/<int:comment_id>/delete', methods=('POST',))
+@login_required
+def delete_comment(post_id, comment_id):
+    db = get_db()
+
+    # Ensure the user is the owner of the comment
+    comment = db.execute(
+        'SELECT * FROM comment WHERE id = ? AND user_id = ?', (comment_id, g.user['id'])
+    ).fetchone()
+
+    if not comment:
+        flash("You cannot delete this comment.")
+        return redirect(url_for('post.view_post', id=post_id))
+
+    # Delete the comment
+    db.execute('DELETE FROM comment WHERE id = ?', (comment_id,))
+    db.commit()
+
+    return redirect(url_for('post.view_post', id=post_id))
 
 
 
