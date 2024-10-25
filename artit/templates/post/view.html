@@ -13,7 +13,7 @@
         {% endif %}
 
         {% if g.user and g.user['id'] == post['user_id'] %}
-            <a href="{{ url_for('post.update', id=post['id']) }}" class="custom-link">Edit</a>
+            <a href="{{ url_for('post.update', id=post['id'], from=request.args.get('from', 'index')) }}" class="custom-link">Edit</a>
         {% endif %}
     </div>
 

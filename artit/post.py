@@ -132,6 +132,7 @@ def update(id):
     if request.method == 'POST':
         description = request.form['description']
         artwork = request.files.get('artwork')
+        from_page = request.form.get('from', 'view')  # Get 'from' from form data, default to 'view'
         error = None
 
         # If the user uploads a new artwork, save it, else keep the existing one
@@ -153,10 +154,11 @@ def update(id):
                 (description, filename, id)
             )
             db.commit()
-            return redirect(url_for('post.index'))
 
-    return render_template('post/update.html', post=post)
+            # Redirect back to the post's view page after saving
+            return redirect(url_for('post.view_post', id=id))
 
+    return render_template('post/update.html', post=post, from_page=request.args.get('from', 'view'))
 
 # Delete Post
 @bp.route('/<int:id>/delete', methods=('POST',))
