@@ -35,14 +35,6 @@ flask --app artit run
 ```
 Once the server is running, you can access the platform by visiting http://127.0.0.1:5000/ in your web browser.
 
-## Sample Artwork for Testing
-
-For users who do not have their own artwork available, a folder of sample images is provided for testing purposes:
-1. Navigate to the sample_artworks/ folder within the project directory. 
-2. Download an image from the folder to your local machine. 
-3. When uploading artwork to the platform, select one of these downloaded images.
-This allows users to test the image upload functionality without needing external files. 
-
 ## Features
 
 * Homepage: Displays a list of artwork from various users, with options to like and comment.
