@@ -10,20 +10,22 @@
                 <a href="{{ url_for('profile.view_profile', user_id=g.user['id']) }}" class="text-dark">Close</a>
             </div>
 
+            <!-- Profile Avatar and Info Section -->
             <div class="d-flex justify-content-center align-items-center flex-column flex-md-row">
-                <div class="profile-avatar text-center text-md-left mb-3 mb-md-0">
+                <div class="profile-avatar text-center text-md-start mb-3 mb-md-0">
                     <img id="profileImage" src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="150" height="150" alt="User Avatar">
                 </div>
 
-                <div class="profile-info ml-md-4 text-center text-md-left">
+                <div class="profile-info ms-md-4 text-center text-md-start">
                     <h5>{{ user['firstname'] }} {{ user['lastname'] }}</h5>
-                    <a href="#" class="edit-profile-link text-purple" onclick="triggerImageUpload()">Update Profile Image</a>
+                    <a href="#" class="custom-link" onclick="triggerImageUpload()">Update Profile Image</a>
                     <li class="mt-4"><a href="{{ url_for('auth.logout') }}" class="text-muted">Logout</a></li>
                 </div>
             </div>
 
-            <hr class="profile-divider">
+            <!-- Divider -->
+            <hr>
 
             <!-- Form with enctype="multipart/form-data" to handle file uploads -->
             <form method="POST" class="mt-2" enctype="multipart/form-data">
@@ -31,37 +33,40 @@
                 <input type="file" id="profileImageInput" name="avatar" class="d-none" accept="image/*" onchange="previewProfileImage(event)">
 
                 <!-- Profile Update Fields -->
-                <div class="form-group row">
-                    <label for="firstname" class="col-sm-3 col-form-label font-weight-bold text-uppercase">First Name</label>
+                <div class="row mb-3">
+                    <label for="firstname" class="col-sm-3 col-form-label">First Name</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="firstname" name="firstname" value="{{ user['firstname'] }}" required>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="lastname" class="col-sm-3 col-form-label font-weight-bold text-uppercase">Last Name</label>
+
+                <div class="row mb-3">
+                    <label for="lastname" class="col-sm-3 col-form-label">Last Name</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="lastname" name="lastname" value="{{ user['lastname'] }}">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="username" class="col-sm-3 col-form-label font-weight-bold text-uppercase">Username</label>
+
+                <div class="row mb-3">
+                    <label for="username" class="col-sm-3 col-form-label">Username</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="username" name="username" value="{{ user['username'] }}" required>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="bio" class="col-sm-3 col-form-label font-weight-bold text-uppercase">Bio</label>
+
+                <div class="row mb-3">
+                    <label for="bio" class="col-sm-3 col-form-label">Bio</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="bio" name="bio" rows="4" maxlength="150">{{ user['bio'] }}</textarea>
+                        <textarea class="form-control" id="bio" name="bio" rows="1" maxlength="150" oninput="autoResize(this)">{{ user['bio'] }}</textarea>
                     </div>
                 </div>
 
+                <!-- Save Changes Button -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-custom mt-3">Save Changes</button>
+                    <button type="submit" class="btn-custom mt-3">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 {% endblock %}
-

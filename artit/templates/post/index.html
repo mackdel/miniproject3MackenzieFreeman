@@ -8,47 +8,51 @@
         {% for post in posts %}
         <div id="post-{{ post['id'] }}" class="col-12 mb-4 d-flex justify-content-center">
             <div class="card post-card border-dark">
-                <div class="card-body ">
+                <div class="card-body">
+                    <!-- User Info Section -->
                     <div class="d-flex p-3">
                         <img src="{% if post['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
-                            class="rounded-circle" width="50" height="50" alt="User Avatar">
-                        <div class="d-flex align-items-center ml-3 ">
+                             class="rounded-circle" width="50" height="50" alt="User Avatar">
+                        <div class="d-flex align-items-center ms-3">
                             <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}">
                                 <h6 class="card-title link-profile-view">{{ post['firstname'] }} {{ post['lastname'] }}</h6>
                             </a>
-                            <small class="text-muted ml-2">-</small>
-                            <small class="text-muted ml-2">{{ post['created'].strftime('%Y-%m-%d') }}</small>
+                            <small class="text-muted ms-2">-</small>
+                            <small class="text-muted ms-2">{{ post['created'].strftime('%B %d, %Y') }}</small>
                         </div>
                     </div>
 
+                    <!-- Artwork Section -->
                     <div class="artwork text-center">
                         <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}">
-                             <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid mx-auto d-block" alt="Artwork">
+                            <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid mx-auto d-block" alt="Artwork">
                         </a>
                     </div>
 
+                    <!-- Like and Comment Section -->
                     <div class="d-flex align-items-center p-3">
-                        <form id="like-form-{{ post['id'] }}" class="mr-3">
+                        <form id="like-form-{{ post['id'] }}" >
                             <input type="hidden" name="from" value="index">
                             <button type="button" class="btn btn-link p-0 d-flex align-items-center" id="like-button-{{ post['id'] }}" onclick="likePost({{ post['id'] }})">
                                 <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
-                                <span class="ml-2 likes" id="likes-count-{{ post['id'] }}">{{ post['likes_count'] }} likes</span>
+                                <span class="ms-2 likes" id="likes-count-{{ post['id'] }}">{{ post['likes_count'] }} likes</span>
                             </button>
                         </form>
-                        <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-flex align-items-center ml-4 text-decoration-none link-profile-view">
+                        <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-flex align-items-center ms-4 text-decoration-none link-profile-view">
                             <i class="material-symbols-outlined">mode_comment</i>
-                            <span class="ml-2 comments link-profile-view">{{ post['comments_count'] }} comments</span>
+                            <span class="ms-2 comments">{{ post['comments_count'] }} comments</span>
                         </a>
                     </div>
 
+                    <!-- Post Description Section -->
                     <div class="px-3 p-1">
-                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong>  {{ post['description'] }}
+                        <strong>{{ post['firstname'] }} {{ post['lastname'] }}</strong> {{ post['description'] }}
                     </div>
 
+                    <!-- View Comments Section -->
                     <div class="p-3">
-                       <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-block text-muted">View All Comments / Add a comment...</a>
+                        <a href="{{ url_for('post.view_post', id=post['id'], from='posts') }}" class="d-block text-muted">View All Comments / Add a comment...</a>
                     </div>
-
                 </div>
             </div>
         </div>

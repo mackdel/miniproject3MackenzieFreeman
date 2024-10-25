@@ -4,35 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Artit</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Updated Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100..900&display=swap" rel="stylesheet">
+
+    <!-- Material Symbols -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
 </head>
 <body>
+
+    <!-- Navbar (Non-collapsing) -->
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">Artit</a>
 
-            <div class="navbar-nav justify-content-end" >
+            <div class="navbar-nav ms-auto">
               <ul class="navbar-nav flex-row">
                 <li class="nav-item">
                   <a class="nav-link {{ 'active' if request.endpoint == 'post.index' else '' }}" href="{{ url_for('index') }}">
-                      <i class="material-symbols-outlined">home</i><span class="d-none d-lg-inline">Home</span>
+                      <i class="material-symbols-outlined">home</i> <span class="d-none d-lg-inline">Home</span>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link {{ 'active' if request.endpoint == 'post.create' else '' }}" href="{{ url_for('post.create') }}">
-                      <i class="material-symbols-sharp">add_box</i><span class="d-none d-lg-inline">New</span>
+                      <i class="material-symbols-sharp">add_box</i> <span class="d-none d-lg-inline">New</span>
                   </a>
                 </li>
-                  <li class="nav-item">
+                <li class="nav-item">
                     {% if g.user %}
-                        <!-- Only highlight profile link if the logged-in user is viewing their own profile -->
                         <a class="nav-link {{ 'active' if request.endpoint == 'profile.view_profile' and request.view_args.get('user_id') == g.user['id'] else '' }}"
                            href="{{ url_for('profile.view_profile', user_id=g.user['id']) }}">
                            <img src="{% if g.user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + g.user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
@@ -40,9 +49,8 @@
                            <span class="d-none d-lg-inline">Profile</span>
                         </a>
                     {% else %}
-                        <!-- If user is not logged in, show Login/Register link -->
                         <a class="nav-link {{ 'active' if request.endpoint == 'auth.login' or request.endpoint == 'auth.register' else '' }}" href="{{ url_for('auth.login') }}">
-                            <i class="material-symbols-outlined">account_box</i><span class="d-none d-lg-inline">Login/Register</span>
+                            <i class="material-symbols-outlined">account_box</i> <span class="d-none d-lg-inline">Login/Register</span>
                         </a>
                     {% endif %}
                 </li>
@@ -51,33 +59,33 @@
         </div>
     </nav>
 
+    <!-- Main Content Section -->
     <section class="content">
         {% for message in get_flashed_messages() %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
         {% block content %}{% endblock %}
     </section>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap 5 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- jQuery (For Like System) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-    <!-- JavaScript to handle image preview when creating a post-->
+    <!-- Custom JavaScript -->
     <script>
+        // Image Preview Functionality
         function previewImage(event) {
             if (event.target.files && event.target.files[0]) {
                 var reader = new FileReader();
                 var imageField = document.getElementById("uploadedImage");
                 var uploadLabel = document.getElementById("uploadLabel");
 
-                reader.onload = function() {
+                reader.onload = function () {
                     if (reader.readyState === 2) {
                         imageField.src = reader.result;
                         imageField.classList.add('show');
@@ -89,7 +97,7 @@
             }
         }
 
-        <!-- JavaScript to handle image preview when updating profile picture-->
+        // Profile Image Upload Trigger
         function triggerImageUpload() {
             document.getElementById('profileImageInput').click();
         }
@@ -100,66 +108,74 @@
 
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     profileImage.src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        <!-- JavaScript for password confirmation validation-->
+        // Password Confirmation Validation
         document.getElementById('registerForm').addEventListener('submit', function (event) {
             var password = document.getElementById('password');
             var confirmPassword = document.getElementById('confirm_password');
 
-            // Check if passwords match
             if (password.value !== confirmPassword.value) {
-                confirmPassword.classList.add('is-invalid');  // Show invalid feedback
-                confirmPassword.classList.remove('is-valid'); // Remove valid feedback if present
-                event.preventDefault();  // Prevent form submission
+                confirmPassword.classList.add('is-invalid');
+                confirmPassword.classList.remove('is-valid');
+                event.preventDefault();
             } else {
-                confirmPassword.classList.remove('is-invalid');  // Remove invalid feedback if present
-                confirmPassword.classList.add('is-valid');  // Show valid feedback
+                confirmPassword.classList.remove('is-invalid');
+                confirmPassword.classList.add('is-valid');
             }
         });
 
-        <!-- Additional listener for real-time password matching-->
-        document.getElementById('confirm_password').addEventListener('input', function() {
+        // Real-time Password Confirmation Validation
+        document.getElementById('confirm_password').addEventListener('input', function () {
             var password = document.getElementById('password');
             var confirmPassword = document.getElementById('confirm_password');
 
-            // Check passwords in real-time as the user types
             if (password.value !== confirmPassword.value) {
-                confirmPassword.classList.add('is-invalid');  // Show invalid feedback
-                confirmPassword.classList.remove('is-valid'); // Remove valid feedback
+                confirmPassword.classList.add('is-invalid');
+                confirmPassword.classList.remove('is-valid');
             } else {
-                confirmPassword.classList.remove('is-invalid');  // Remove invalid feedback
-                confirmPassword.classList.add('is-valid');  // Show valid feedback
+                confirmPassword.classList.remove('is-invalid');
+                confirmPassword.classList.add('is-valid');
             }
         });
 
-
+        // Like Post Functionality (jQuery)
         function likePost(postId) {
             $.ajax({
-                url: `/post/${postId}/like`,  // The URL to send the like request to
+                url: `/post/${postId}/like`,
                 method: 'POST',
-                data: { from: 'index' },  // Include any other necessary data
-                success: function(response) {
-                    // Update the like count text
+                data: {from: 'index'},
+                success: function (response) {
                     $('#likes-count-' + postId).text(response.likes + ' likes');
-
-                    // Toggle the filled-purple class on the like icon
                     let likeIcon = $('#like-button-' + postId).find('i');
                     likeIcon.toggleClass('filled-purple');
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error('Error liking post:', error);
                 }
             });
         }
 
+        // Auto Adjust Form Text-Area Based on User Input
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';  // Reset the height so it doesn't keep growing.
+            textarea.style.height = textarea.scrollHeight + 'px';  // Adjust to the full content height.
+        }
 
+            // Auto-resize on page load if the bio has content
+            document.addEventListener("DOMContentLoaded", function() {
+            const bioTextarea = document.getElementById("bio");
+            if (bioTextarea) {
+            autoResize(bioTextarea);
+        }
+        });
 
     </script>
+
 </body>
 </html>

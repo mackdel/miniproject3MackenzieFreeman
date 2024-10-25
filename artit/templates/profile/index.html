@@ -4,38 +4,38 @@
 
 {% block content %}
 <div class="container mt-5 mb-3">
+    <!-- Profile Header (Avatar + Info) -->
     <div class="d-flex justify-content-center align-items-center flex-column flex-md-row">
         <div class="profile-avatar text-center text-md-left mb-3 mb-md-0">
             <img src="{% if user['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + user['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                  class="rounded-circle" width="150" height="150" alt="User Avatar">
         </div>
 
-        <div class="profile-info ml-md-4 text-center text-md-left">
+        <div class="profile-info ms-md-4 text-md-start">
             <h5>{{ user['firstname'] }} {{ user['lastname'] }}</h5>
-            {% if user['bio'] != 'None' and  user['bio']%}
+            {% if user['bio'] != 'None' and  user['bio'] %}
                 <p class="text-muted">{{ user['bio'] }}</p>
             {% endif %}
             {% if g.user['id'] == user['id'] %}
-                <a href="{{ url_for('profile.update') }}" class="edit-profile-link text-purple">Settings</a>
+                <a href="{{ url_for('profile.update') }}" class="custom-link">Settings</a>
             {% endif %}
         </div>
     </div>
 
+    <!-- Divider -->
     <hr class="profile-divider">
 
-    <div class="artwork-gallery">
+    <!-- Artwork Gallery -->
+    <div class="artwork-gallery row g-3">
         {% for artwork in artworks %}
-        <div class="artwork-item">
+        <div class="col-6 col-md-4 col-lg-3 artwork-item">
             <a href="{{ url_for('post.view_post', id=artwork['id'], from='profile') }}">
-                <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" alt="Artwork">
+                <img src="{{ url_for('static', filename='uploads/artworks/' + artwork['artwork']) }}" class="img-fluid" alt="Artwork">
             </a>
         </div>
         {% else %}
-        <p>No artwork uploaded yet.</p>
+        <p class="text-center">No artwork uploaded yet.</p>
         {% endfor %}
     </div>
 </div>
 {% endblock %}
-
-
-

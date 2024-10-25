@@ -23,13 +23,21 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-hr{
-  background-color: var(--main-font-color);
+hr {
+    border: none;
+    border-top: 1px solid var(--main-font-color);
+    height: 0;
+    opacity: 1;
+}
+
+a{
+    text-decoration: none !important;
 }
 
 a:hover{
     text-decoration: none;
 }
+
 
 /* // SITEWIDE */
 .btn-custom {
@@ -73,26 +81,52 @@ a:hover{
 }
 
 .text-purple{
-    color: var(--main-color) !important;
+    color: var(--main-color);
 }
 
-.text-purple:hover {
-    color: var(--main-font-color) !important;
+button.custom-link {
+    font-weight: 500;
+    color: var(--main-color) !important;
+    text-decoration: none;
 }
+
+button.custom-link:hover {
+    color: var(--main-font-color) !important;
+    text-decoration: none;
+}
+
+.custom-link {
+    font-weight: 500;
+    color: var(--main-color) !important;
+    text-decoration: none;
+}
+
+.custom-link:hover {
+    color: var(--main-font-color) !important;
+    text-decoration: none;
+}
+
+
 
 .navbar {
     border-bottom: 1px solid var(--main-font-color);
-    padding: 16px;
 }
 
 .navbar-brand {
-    font-size: 28px;
     font-weight: 700;
     color: var(--main-font-color);
 }
 
+.navbar-brand:hover {
+    color: var(--main-color) !important;
+}
+
 .nav-item{
     margin-left: 18px;
+}
+
+.nav-item:hover{
+    color: var(--main-color) !important;
 }
 
 .navbar-nav .nav-link {
@@ -103,10 +137,14 @@ a:hover{
     position: relative;
 }
 
+.navbar-nav .nav-link:hover {
+    color: var(--main-color) !important;
+}
+
 .navbar-nav .nav-link.active::after {
     content: '';
     position: absolute;
-    bottom: -22px;
+    bottom: -9px;
     left: 0;
     height: 6px;
     background-color: var(--main-color);
@@ -128,19 +166,8 @@ a:hover{
 
 /* // AUTH */
 .page-title {
-    font-weight: 700;
+    font-weight: 600 !important;
     font-family: "Poppins", sans-serif;
-}
-
-.custom-link {
-    font-weight: 500;
-    color: var(--main-color);
-    text-decoration: none;
-}
-
-.custom-link:hover {
-    color: #480788;
-    text-decoration: none;
 }
 
 .form-container {
@@ -155,6 +182,9 @@ a:hover{
 
 .col-form-label{
     color: var(--dark-grey);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 15px;
 }
 
 .link-profile-view{
@@ -205,16 +235,16 @@ a:hover{
 }
 
 .btn-link {
-    text-decoration: none;
-    color: inherit;
+    text-decoration: none !important;
+    color: inherit !important;
 }
 
 .btn-link:hover,
 .btn-link:focus,
 .btn-link:active {
-    text-decoration: none;
-    outline: none;
-    box-shadow: none;
+    text-decoration: none !important;;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .post-card .text-muted {
@@ -236,11 +266,6 @@ a:hover{
 
 .post-card a.text-muted {
     color: var(--grey);
-}
-
-.post-card .px-3.pb-1 {
-    padding-top: 10px;
-    padding-bottom: 5px;
 }
 
 .likes, .comments{
@@ -352,12 +377,6 @@ a:hover{
     font-weight: 600;
 }
 
-.profile-divider {
-    margin-top: 50px;
-    margin-bottom: 25px;
-    border-top: 1px solid var(--main-font-color);
-    width: 100%;
-}
 
 .artwork-gallery {
     display: grid;
