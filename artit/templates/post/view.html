@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
+    <!-- Top Buttons (Close and Save) -->
     <div class="d-flex justify-content-between mb-3">
         {% if request.args.get('from') == 'profile' %}
             <a href="{{ url_for('profile.view_profile', user_id=post['user_id']) }}" class="text-dark">Close</a>
@@ -16,12 +17,15 @@
         {% endif %}
     </div>
 
+    <!-- Post Information-->
     <div class="row mb-4">
+        <!-- Artwork -->
         <div class="col-md-7 mb-4 artwork-view">
             <img src="{{ url_for('static', filename='uploads/artworks/' + post['artwork']) }}" class="img-fluid" alt="Artwork" style="max-width: 100%;">
         </div>
 
         <div class="col-md-5 d-flex flex-column">
+            <!-- Post Owner Information -->
             <div class="d-flex">
                 <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                      class="rounded-circle" width="55" height="55" alt="User Avatar">
@@ -36,6 +40,7 @@
             <hr class="mb-0">
 
             <div id="post-comments" class="comment-section">
+                <!-- Post Description as first comment-->
                 {% if post['description'] %}
                 <div class="d-flex mb-3 comment">
                     <img src="{% if post['user_avatar'] %}{{ url_for('static', filename='uploads/avatars/' + post['user_avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
@@ -48,16 +53,18 @@
                     </div>
                 </div>
                 {% endif %}
+                <!-- Comments -->
                 {% for comment in comments %}
                 <div class="d-flex mb-4 comment">
                     <img src="{% if comment['avatar'] %}{{ url_for('static', filename='uploads/avatars/' + comment['avatar']) }}{% else %}{{ url_for('static', filename='uploads/avatars/default_avatar.jpg') }}{% endif %}"
                          class="rounded-circle" width="40" height="40" alt="User Avatar">
-                    <div class="px-3 comment-text">
+                    <div class="px-3">
                         <a href="{{ url_for('profile.view_profile', user_id=comment['user_id']) }}">
                             <strong class="card-title link-profile-view">{{ comment['firstname'] }} {{ comment['lastname'] }}</strong>
                         </a>
                         {{ comment['body'] }}
 
+                        <!-- Delete Comment Option -->
                         {% if g.user and g.user['id'] == comment['user_id'] %}
                         <div>
                             <a href="#" class="custom-link" data-bs-toggle="modal" data-bs-target="#deleteCommentModal-{{ comment['id'] }}">Delete</a>
@@ -91,6 +98,7 @@
 
             <hr class="mt-0">
 
+            <!-- Post Likes and Comments -->
             <div class="d-flex align-items-center mb-3">
                 <button type="button" class="btn btn-link p-0 d-flex align-items-center" id="like-button-{{ post['id'] }}" onclick="likePost({{ post['id'] }})">
                     <i class="material-symbols-outlined {% if post['user_liked'] %} filled-purple {% endif %}">favorite</i>
@@ -99,6 +107,7 @@
                 <i class="material-symbols-outlined ms-4">mode_comment</i><span class="ms-2 comments">{{ comments|length }} comments</span>
             </div>
 
+            <!-- Enter New Comments -->
             <form action="{{ url_for('post.comment', id=post['id']) }}" method="POST" class="d-flex align-items-center">
                 <input type="text" name="comment" class="form-control" placeholder="Add a comment..." required maxlength="70">
                 <button type="submit" class="btn-custom ms-2">Send</button>

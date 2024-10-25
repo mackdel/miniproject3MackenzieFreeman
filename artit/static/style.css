@@ -6,21 +6,17 @@
 }
 
 /* // VARIABLES */
-:root{
+:root {
     --main-color: #7E01FA;
     --main-font-color: #262626;
     --grey: #EAEAEA;
     --dark-grey: #666464;
 }
 
-
 /* // ELEMENTS */
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     font-family: "Open Sans", sans-serif;
+    font-size: 16px;
 }
 
 hr {
@@ -30,14 +26,13 @@ hr {
     opacity: 1;
 }
 
-a{
+a {
     text-decoration: none !important;
 }
 
-a:hover{
+a:hover {
     text-decoration: none;
 }
-
 
 /* // SITEWIDE */
 .btn-custom {
@@ -64,49 +59,24 @@ a:hover{
     color: #fff;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
+.material-symbols-outlined, .material-symbols-sharp {
+    font-variation-settings:
   'FILL' 0,
   'wght' 350,
   'GRAD' 0,
   'opsz' 24
 }
 
-.material-symbols-sharp {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 350,
-  'GRAD' 0,
-  'opsz' 24
-}
-
-.text-purple{
-    color: var(--main-color);
-}
-
-button.custom-link {
+button.custom-link, .custom-link {
     font-weight: 500;
     color: var(--main-color) !important;
     text-decoration: none;
 }
 
-button.custom-link:hover {
+button.custom-link:hover, .custom-link:hover {
     color: var(--main-font-color) !important;
     text-decoration: none;
 }
-
-.custom-link {
-    font-weight: 500;
-    color: var(--main-color) !important;
-    text-decoration: none;
-}
-
-.custom-link:hover {
-    color: var(--main-font-color) !important;
-    text-decoration: none;
-}
-
-
 
 .navbar {
     border-bottom: 1px solid var(--main-font-color);
@@ -117,16 +87,12 @@ button.custom-link:hover {
     color: var(--main-font-color);
 }
 
-.navbar-brand:hover {
+.navbar-brand:hover, .nav-item:hover, .navbar-nav .nav-link:hover {
     color: var(--main-color) !important;
 }
 
-.nav-item{
+.nav-item {
     margin-left: 18px;
-}
-
-.nav-item:hover{
-    color: var(--main-color) !important;
 }
 
 .navbar-nav .nav-link {
@@ -135,10 +101,6 @@ button.custom-link:hover {
     display: flex;
     align-items: center;
     position: relative;
-}
-
-.navbar-nav .nav-link:hover {
-    color: var(--main-color) !important;
 }
 
 .navbar-nav .nav-link.active::after {
@@ -163,8 +125,7 @@ button.custom-link:hover {
     font-size: 26px;
 }
 
-
-/* // AUTH */
+/* || AUTH */
 .page-title {
     font-weight: 600 !important;
     font-family: "Poppins", sans-serif;
@@ -180,18 +141,18 @@ button.custom-link:hover {
     font-size: 16px;
 }
 
-.col-form-label{
+.col-form-label {
     color: var(--dark-grey);
     font-weight: 700;
     text-transform: uppercase;
     font-size: 15px;
 }
 
-.link-profile-view{
+.link-profile-view {
     color: var(--main-font-color);
 }
 
-.link-profile-view:hover{
+.link-profile-view:hover, .filled-purple {
     color: var(--main-color);
 }
 
@@ -230,10 +191,6 @@ button.custom-link:hover {
     object-fit: cover;
 }
 
-.filled-purple {
-    color: var(--main-color);
-}
-
 .btn-link {
     text-decoration: none !important;
     color: inherit !important;
@@ -255,31 +212,13 @@ button.custom-link:hover {
     font-size: 20px;
 }
 
-.post-card .ml-1 {
-    font-size: 14px;
-}
-
-.post-card .p-3 strong {
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.post-card a.text-muted {
-    color: var(--grey);
-}
-
-.likes, .comments{
+.likes, .comments {
     color: var(--main-font-color);
     font-weight: 600;
     font-size: 16px;
 }
 
-/* || VIEW POST */
-.comment-text {
-    white-space: normal;
-    font-size: 15px;
-}
-
+/* || VIEW SINGULAR POST */
 .comment-section {
     min-height: 30vh;
     max-height: 40vh;
@@ -293,12 +232,11 @@ button.custom-link:hover {
 }
 
 .comment {
-
     word-break: break-word;
     max-width: 100%;
 }
 
-.artwork-view{
+.artwork-view {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -307,23 +245,18 @@ button.custom-link:hover {
     position: relative;
 }
 
-.artwork-view img{
+.artwork-view img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-
-/* || NEW POST */
+/* || NEW POST / UPDATE POST */
 .top-btns{
     max-width: 500px;
 }
 
-.text-purple.bold {
-    font-weight: 600;
-}
-
-.artwork i{
+.artwork i {
     font-size: 60px;
     margin-bottom: 20px;
     color: var(--dark-grey);
@@ -339,7 +272,7 @@ button.custom-link:hover {
     z-index: 1000;
 }
 
-.artwork-preview.show{
+.artwork-preview.show {
     z-index: 0;
 }
 
@@ -351,7 +284,6 @@ button.custom-link:hover {
 .artwork img.show {
     display: block;
 }
-
 
 /* || PROFILE */
 .profile-avatar {
@@ -372,11 +304,6 @@ button.custom-link:hover {
 .profile-info p {
     word-wrap: break-word;
 }
-
-.edit-profile-link {
-    font-weight: 600;
-}
-
 
 .artwork-gallery {
     display: grid;
