@@ -307,7 +307,7 @@ button.custom-link:hover, .custom-link:hover {
 
 .artwork-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 0.5fr));
     gap: 10px;
     max-width: 100%;
     margin: 0 auto;
